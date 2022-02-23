@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/shop
-    username: shop
-    password: 1234
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@127.0.0.1:1521:ORCLCDB
+    username: SHOP_ADMIN
+    password: test1234
   jpa:
     hibernate:
       ddl-auto: create
