@@ -24,7 +24,7 @@ public class Delivery {
     @GeneratedValue
     @Column(name = Ids.DELIVERY_ID)
     Long id;
-    @OneToOne
+    @OneToOne(mappedBy = Ids.DELIVERY)
     Order order;
     @Embedded
     Address address;

@@ -24,7 +24,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "orders")
+@Table(name = Ids.ORDERS)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
     @Id
@@ -34,9 +34,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = Ids.MEMBER_ID)
     Member member;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = Ids.ORDER)
     List<OrderItem> orderItems = new ArrayList<>();
     @OneToOne
+    @JoinColumn(name = Ids.DELIVERY_ID)
     Delivery delivery;
     LocalDateTime orderDate;
     @Enumerated(EnumType.STRING)
