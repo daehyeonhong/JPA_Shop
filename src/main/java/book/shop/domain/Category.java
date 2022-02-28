@@ -1,8 +1,6 @@
 package book.shop.domain;
 
 import book.shop.domain.item.Item;
-import book.shop.enumerate.Ids;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -17,23 +15,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import static book.shop.enumerate.Ids.CATEGORY_ID;
+import static book.shop.enumerate.Ids.CATEGORY_ITEM;
+import static book.shop.enumerate.Ids.ITEM_ID;
+import static book.shop.enumerate.Ids.PARENT;
+import static book.shop.enumerate.Ids.PARENT_ID;
+import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = PRIVATE)
 public class Category {
     @Id
     @GeneratedValue
-    @Column(name = Ids.CATEGORY_ID)
+    @Column(name = CATEGORY_ID)
     Long id;
     String name;
     @ManyToMany
-    @JoinTable(name = Ids.CATEGORY_ITEM, joinColumns = @JoinColumn(name = Ids.CATEGORY_ID), inverseJoinColumns = @JoinColumn(name = Ids.ITEM_ID))
+    @JoinTable(name = CATEGORY_ITEM, joinColumns = @JoinColumn(name = CATEGORY_ID), inverseJoinColumns = @JoinColumn(name = ITEM_ID))
     List<Item> items = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = Ids.PARENT_ID)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = PARENT_ID)
     Category parent;
-    @OneToMany(mappedBy = Ids.PARENT)
+    @OneToMany(mappedBy = PARENT)
     List<Category> child = new ArrayList<>();
+
+    public void addChildCategory(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
 }

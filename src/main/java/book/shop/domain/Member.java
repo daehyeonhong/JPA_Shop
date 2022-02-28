@@ -1,7 +1,5 @@
 package book.shop.domain;
 
-import book.shop.enumerate.Ids;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -13,19 +11,22 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import static book.shop.enumerate.Ids.MEMBER;
+import static book.shop.enumerate.Ids.MEMBER_ID;
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = PRIVATE)
 public class Member {
     @Id
     @GeneratedValue
-    @Column(name = Ids.MEMBER_ID)
+    @Column(name = MEMBER_ID)
     Long id;
     String name;
     @Embedded
     Address address;
-    @OneToMany(mappedBy = Ids.MEMBER)
+    @OneToMany(mappedBy = MEMBER)
     List<Order> orders = new ArrayList<>();
 }
