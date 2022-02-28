@@ -24,7 +24,7 @@ public class Member {
     @GeneratedValue
     @Column(name = MEMBER_ID)
     Long id;
-    @Column(unique = true)
+    //    @Column(unique = true)
     String name;
     @Embedded
     Address address;
