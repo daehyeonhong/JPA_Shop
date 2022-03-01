@@ -8,9 +8,11 @@ import book.shop.domain.item.Item;
 import book.shop.repository.ItemRepository;
 import book.shop.repository.MemberRepository;
 import book.shop.repository.OrderRepository;
+import book.shop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -55,6 +57,10 @@ public class OrderService {
     public void cancelOrder(final Long orderId) {
         final Order order = this.orderRepository.findOne(orderId);
         order.cancel();
+    }
+
+    public List<Order> findOrder(OrderSearch orderSearch) {
+        return this.orderRepository.findAll(orderSearch);
     }
 
 }
