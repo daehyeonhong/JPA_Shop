@@ -54,6 +54,17 @@ public class Order {
     @Enumerated(value = STRING)
     OrderStatus status;
 
+    //==Construct Method==//
+    public static Order createOrder(final Member member, final Delivery delivery, final OrderItem... orderItems) {
+        final Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (final OrderItem orderItem : orderItems) order.addOrderItem(orderItem);
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
     //==연관관계 메서드==//
     public void setMember(Member member) {
         this.member = member;
@@ -68,17 +79,6 @@ public class Order {
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
-    }
-
-    //==Construct Method==//
-    public static Order createOrder(final Member member, final Delivery delivery, final OrderItem... orderItems) {
-        final Order order = new Order();
-        order.setMember(member);
-        order.setDelivery(delivery);
-        for (final OrderItem orderItem : orderItems) order.addOrderItem(orderItem);
-        order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
-        return order;
     }
 
     //==주문 취소 Method==//
