@@ -34,4 +34,25 @@ public class OrderItem {
     Order order;
     BigDecimal orderPrice; // 주문 가격
     int count; // 주문 수량
+
+    //==Construct Method==//
+    public static OrderItem createOrderItem(final Item item, BigDecimal orderPrice, int count) {
+        final OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    //==Business Logic==//
+    public void cancel() {
+        this.getItem().addStock(count);
+    }
+
+    //==조회 Logic==//
+    public BigDecimal getTotalPrice() {
+        return this.getOrderPrice().multiply(BigDecimal.valueOf(this.count));
+    }
 }

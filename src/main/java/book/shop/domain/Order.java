@@ -1,5 +1,6 @@
 package book.shop.domain;
 
+import book.shop.enumerate.DeliveryStatus;
 import book.shop.enumerate.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,5 +65,38 @@ public class Order {
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
+    }
+
+    //==Construct Method==//
+    public static Order createOrder(final Member member, final Delivery delivery, final OrderItem... orderItems) {
+        final Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (final OrderItem orderItem : orderItems) order.addOrderItem(orderItem);
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    //==주문 취소 Method==//
+    public void cancel() {
+        if (this.delivery.getStatus() == DeliveryStatus.COMP)
+            throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+        this.setStatus(OrderStatus.CANCEL);
+        for (final OrderItem orderItem : this.orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    //==조회 Logic==//
+
+    /**
+     * 전체 주문 가격 조회
+     * @return 전체 주문 가격
+     */
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (OrderItem orderItem : this.orderItems) totalPrice = totalPrice.add(orderItem.getTotalPrice());
+        return totalPrice;
     }
 }

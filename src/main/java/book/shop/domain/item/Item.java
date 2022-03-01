@@ -36,12 +36,11 @@ public abstract class Item {
     @ManyToMany(mappedBy = ITEMS)
     List<Category> categories = new ArrayList<>();
 
-    //==Business Logic==//
-
     /**
      * stock 증가
      * @param quantity 재고
      */
+    //==Business Logic==//
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }
