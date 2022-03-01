@@ -1,6 +1,7 @@
 package book.shop.domain.item;
 
 import book.shop.domain.Category;
+import book.shop.exception.NotEnoughException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -34,4 +35,20 @@ public abstract class Item {
     int stockQuantity;
     @ManyToMany(mappedBy = ITEMS)
     List<Category> categories = new ArrayList<>();
+
+    //==Business Logic==//
+
+    /**
+     * stock 증가
+     * @param quantity 재고
+     */
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        final int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) throw new NotEnoughException("need more Stock!");
+        this.stockQuantity = restStock;
+    }
 }
