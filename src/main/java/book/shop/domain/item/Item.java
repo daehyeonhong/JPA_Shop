@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
@@ -28,6 +29,7 @@ import static lombok.AccessLevel.PRIVATE;
 @DiscriminatorColumn(name = DTYPE)
 public abstract class Item {
     @Id
+    @GeneratedValue
     @Column(name = ITEM_ID)
     Long id;
     String name;

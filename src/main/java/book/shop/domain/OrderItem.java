@@ -2,6 +2,7 @@ package book.shop.domain;
 
 import book.shop.domain.item.Item;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.Column;
@@ -16,11 +17,13 @@ import static book.shop.enumerate.Ids.ORDER_ID;
 import static book.shop.enumerate.Ids.ORDER_ITEM_ID;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @Setter
 @FieldDefaults(level = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
 public class OrderItem {
     @Id
     @GeneratedValue

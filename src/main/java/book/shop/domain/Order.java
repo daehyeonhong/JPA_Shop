@@ -3,6 +3,7 @@ package book.shop.domain;
 import book.shop.enumerate.DeliveryStatus;
 import book.shop.enumerate.OrderStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.Column;
@@ -28,12 +29,14 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @Setter
 @Table(name = ORDERS)
 @FieldDefaults(level = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
 public class Order {
     @Id
     @GeneratedValue
