@@ -18,5 +18,5 @@ import static lombok.AccessLevel.PROTECTED;
 public class Address {
     String city;
     String street;
-    String zipCode;
+    String zipcode;
 }
