@@ -18,6 +18,13 @@ public class ItemService {
         this.itemRepository.save(item);
     }
 
+    public void updateItem(final Long id, final Item item) {
+        final Item findItem = this.itemRepository.findOne(id);
+        findItem.setPrice(item.getPrice());
+        findItem.setName(item.getName());
+        findItem.setStockQuantity(item.getStockQuantity());
+    }
+
     public List<Item> findItems() {
         return this.itemRepository.findAll();
     }
