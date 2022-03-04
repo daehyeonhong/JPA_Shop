@@ -70,7 +70,7 @@ public class ItemController {
         book.setAuthor(bookForm.getAuthor());
         book.setIsbn(bookForm.getIsbn());
 
-        this.itemService.updateItem(book);
+        this.itemService.updateItem(itemId, book);
         return "redirect:items";
     }
 }
