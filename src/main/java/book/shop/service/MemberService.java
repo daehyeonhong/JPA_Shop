@@ -1,5 +1,6 @@
 package book.shop.service;
 
+import book.shop.domain.Address;
 import book.shop.domain.Member;
 import book.shop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,12 @@ public class MemberService {
 
     public Member findOne(Long id) {
         return this.memberRepository.fineOne(id);
+    }
+
+    @Transactional
+    public void update(final Long id, final String name, final Address address) {
+        final Member member = this.memberRepository.fineOne(id);
+        member.setName(name);
+        if (address != null) member.setAddress(address);
     }
 }
