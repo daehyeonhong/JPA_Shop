@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,7 @@ import static book.shop.enumerate.Ids.MEMBER_ID;
 import static book.shop.enumerate.Ids.ORDER;
 import static book.shop.enumerate.Ids.ORDERS;
 import static book.shop.enumerate.Ids.ORDER_ID;
+import static java.time.LocalDateTime.now;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -61,7 +61,7 @@ public class Order {
         order.setDelivery(delivery);
         for (final OrderItem orderItem : orderItems) order.addOrderItem(orderItem);
         order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(now());
         return order;
     }
 
@@ -97,9 +97,9 @@ public class Order {
      * 전체 주문 가격 조회
      * @return 전체 주문 가격
      */
-    public BigDecimal getTotalPrice() {
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        for (OrderItem orderItem : this.orderItems) totalPrice = totalPrice.add(orderItem.getTotalPrice());
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : this.orderItems) totalPrice += orderItem.getTotalPrice();
         return totalPrice;
     }
 }

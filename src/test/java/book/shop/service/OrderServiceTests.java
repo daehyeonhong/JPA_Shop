@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -34,7 +33,7 @@ class OrderServiceTests {
         //given
         final Member member = this.createMember();
 
-        final Item book = this.createItem("MobyDick", new BigDecimal(10000), 10);
+        final Item book = this.createItem("MobyDick", 11000, 10);
 
         final int orderCount = 2;
 
@@ -46,7 +45,7 @@ class OrderServiceTests {
 
         assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "상품 주문시 상태는 ORDER");
         assertEquals(1, getOrder.getOrderItems().size(), "주문한 상품 종류 수가 정확해야 한다.");
-        assertEquals(new BigDecimal(10000).multiply(BigDecimal.valueOf(orderCount))
+        assertEquals(10000 * orderCount
                 , getOrder.getTotalPrice()
                 , "주문한 가격은 가격 * 수량이다.");
         assertEquals(8, book.getStockQuantity(), "주문 수량만큼 재고가 줄어야 한다.");
@@ -57,7 +56,7 @@ class OrderServiceTests {
     void orderStockOver() {
         //given
         final Member member = this.createMember();
-        final Item item = this.createItem("Snow County", new BigDecimal(10000), 30);
+        final Item item = this.createItem("Snow County", 10000, 30);
         //when
         final int orderCount = 31;
         //then
@@ -69,7 +68,7 @@ class OrderServiceTests {
     void cancel() {
         //given
         final Member member = this.createMember();
-        final Item item = createItem("La Peste", new BigDecimal(10000), 20);
+        final Item item = createItem("La Peste", 15000, 20);
         final int orderCount = 2;
 
         final Long orderId = this.orderService.order(member.getId(), item.getId(), orderCount);
@@ -82,7 +81,7 @@ class OrderServiceTests {
         assertEquals(20, item.getStockQuantity(), "주문이 취소된 상품은 재고가 복귀되어야 한다.");
     }
 
-    private Item createItem(final String name, final BigDecimal price, final int quantity) {
+    private Item createItem(final String name, final int price, final int quantity) {
         final Item book = new Book();
         book.setName(name);
         book.setPrice(price);

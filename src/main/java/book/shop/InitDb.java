@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 
 /**
  * 총 주문 두 건
@@ -49,8 +48,8 @@ public class InitDb {
             final Book book2 = createBook("JPA2 BOOK", 20000, 100);
             this.entityManager.persist(book2);
 
-            final OrderItem orderItem1 = OrderItem.createOrderItem(book1, new BigDecimal(10000), 1);
-            final OrderItem orderItem2 = OrderItem.createOrderItem(book2, new BigDecimal(20000), 2);
+            final OrderItem orderItem1 = OrderItem.createOrderItem(book1, 10000, 1);
+            final OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 2);
 
             final Delivery delivery = createDelivery(member);
             final Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
@@ -66,8 +65,8 @@ public class InitDb {
             final Book book2 = createBook("SPRING2 BOOK", 40000, 200);
             this.entityManager.persist(book2);
 
-            final OrderItem orderItem1 = OrderItem.createOrderItem(book1, new BigDecimal(20000), 4);
-            final OrderItem orderItem2 = OrderItem.createOrderItem(book2, new BigDecimal(40000), 3);
+            final OrderItem orderItem1 = OrderItem.createOrderItem(book1, 20000, 4);
+            final OrderItem orderItem2 = OrderItem.createOrderItem(book2, 40000, 3);
 
             final Delivery delivery = createDelivery(member);
             final Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
@@ -83,7 +82,7 @@ public class InitDb {
         private Book createBook(final String name, final int price, final int stockQuantity) {
             final Book book1 = new Book();
             book1.setName(name);
-            book1.setPrice(new BigDecimal(price));
+            book1.setPrice(price);
             book1.setStockQuantity(stockQuantity);
             return book1;
         }
