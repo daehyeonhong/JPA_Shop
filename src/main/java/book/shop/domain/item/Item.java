@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import static book.shop.enumerate.Ids.DTYPE;
@@ -32,7 +33,7 @@ public abstract class Item {
     @Column(name = ITEM_ID)
     Long id;
     String name;
-    int price;
+    BigDecimal price;
     int stockQuantity;
     @ManyToMany(mappedBy = ITEMS)
     List<Category> categories = new ArrayList<>();

@@ -1,7 +1,6 @@
 package book.shop.domain;
 
 import book.shop.enumerate.DeliveryStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -27,7 +26,6 @@ public class Delivery {
     @GeneratedValue
     @Column(name = DELIVERY_ID)
     Long id;
-    @JsonIgnore
     @OneToOne(fetch = LAZY, mappedBy = DELIVERY)
     Order order;
     @Embedded

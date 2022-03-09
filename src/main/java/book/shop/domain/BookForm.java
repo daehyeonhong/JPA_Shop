@@ -3,6 +3,7 @@ package book.shop.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import java.math.BigDecimal;
 import static lombok.AccessLevel.PRIVATE;
 
 @Getter
@@ -11,7 +12,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class BookForm {
     Long id;
     String name;
-    int price;
+    BigDecimal price;
     int stockQuantity;
     String author;
     String isbn;

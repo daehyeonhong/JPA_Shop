@@ -28,7 +28,7 @@ public class ItemController {
 
     @PostMapping(value = "/new")
     public String create(final BookForm bookForm) {
-        Book book = new Book();
+        final Book book = new Book();
         book.setName(bookForm.getName());
         book.setPrice(bookForm.getPrice());
         book.setStockQuantity(bookForm.getStockQuantity());
@@ -40,14 +40,14 @@ public class ItemController {
 
     @GetMapping(value = "")
     public String list(final Model model) {
-        List<Item> items = this.itemService.findItems();
+        final List<Item> items = this.itemService.findItems();
         model.addAttribute("items", items);
         return "items/itemList";
     }
 
     @GetMapping(value = "/{itemId}/edit")
     public String updateItemForm(@PathVariable final Long itemId, final Model model) {
-        Book item = (Book) this.itemService.findOne(itemId);
+        final Book item = (Book) this.itemService.findOne(itemId);
 
         final BookForm bookForm = new BookForm();
         bookForm.setId(item.getId());
@@ -62,7 +62,7 @@ public class ItemController {
 
     @PostMapping(value = "/{itemId}/edit")
     public String updateItem(@PathVariable final Long itemId, @ModelAttribute final BookForm bookForm) {
-        Book book = new Book();
+        final Book book = new Book();
         book.setId(itemId);
         book.setName(bookForm.getName());
         book.setPrice(bookForm.getPrice());

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ import static book.shop.enumerate.Ids.MEMBER_ID;
 import static book.shop.enumerate.Ids.ORDER;
 import static book.shop.enumerate.Ids.ORDERS;
 import static book.shop.enumerate.Ids.ORDER_ID;
-import static java.time.LocalDateTime.now;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -55,28 +55,28 @@ public class Order {
     OrderStatus status;
 
     //==Construct Method==//
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
-        Order order = new Order();
+    public static Order createOrder(final Member member, final Delivery delivery, final OrderItem... orderItems) {
+        final Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
         for (OrderItem orderItem : orderItems) order.addOrderItem(orderItem);
         order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(now());
+        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 
     //==연관관계 메서드==//
-    public void setMember(Member member) {
+    public void setMember(final Member member) {
         this.member = member;
         member.getOrders().add(this);
     }
 
-    public void addOrderItem(OrderItem orderItem) {
+    public void addOrderItem(final OrderItem orderItem) {
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
-    public void setDelivery(Delivery delivery) {
+    public void setDelivery(final Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
@@ -86,7 +86,7 @@ public class Order {
         if (this.delivery.getStatus() == DeliveryStatus.COMP)
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         this.setStatus(OrderStatus.CANCEL);
-        for (OrderItem orderItem : this.orderItems) orderItem.cancel();
+        for (final OrderItem orderItem : this.orderItems) orderItem.cancel();
     }
 
     //==조회 Logic==//
@@ -95,9 +95,9 @@ public class Order {
      * 전체 주문 가격 조회
      * @return 전체 주문 가격
      */
-    public int getTotalPrice() {
-        int totalPrice = 0;
-        for (OrderItem orderItem : this.orderItems) totalPrice += orderItem.getTotalPrice();
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (final OrderItem orderItem : this.orderItems) totalPrice = totalPrice.add(orderItem.getTotalPrice());
         return totalPrice;
     }
 }

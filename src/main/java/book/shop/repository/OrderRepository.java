@@ -28,15 +28,15 @@ public class OrderRepository {
         return this.entityManager.find(Order.class, id);
     }
 
-    /**
-     * StringBuild
-     * @return 검색 리스트
-     */
     public List<Order> findAll() {
         return this.entityManager.createQuery("select o from Order o", Order.class)
                 .getResultList();
     }
 
+    /**
+     * StringBuild
+     * @return 검색 리스트
+     */
     public List<Order> findAllByString(final OrderSearch orderSearch) {
         String jpql = "select o from Order o join o.member m";
         boolean isFirstCondition = true;
@@ -81,8 +81,17 @@ public class OrderRepository {
         if (StringUtils.hasText(orderSearch.getMemberName()))
             criteria.add(criteriaBuilder.like(member.get("name"), "%" + orderSearch.getMemberName() + "%"));
 
-        criteriaQuery.where(criteriaBuilder.and(criteria.toArray(new Predicate[criteria.size()])));
+        final int criteriaSize = criteria.size();
+        criteriaQuery.where(criteriaBuilder.and(criteria.toArray(new Predicate[criteriaSize])));
         final TypedQuery<Order> query = this.entityManager.createQuery(criteriaQuery).setMaxResults(1000);
         return query.getResultList();
+    }
+
+    public List<Order> findWithMemberDelivery() {
+        return this.entityManager.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d",
+                Order.class).getResultList();
     }
 }
