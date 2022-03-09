@@ -1,6 +1,7 @@
 package book.shop.domain;
 
 import book.shop.domain.item.Item;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class OrderItem {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = ITEM_ID)
     Item item;
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = ORDER_ID)
     Order order;

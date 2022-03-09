@@ -1,5 +1,6 @@
 package book.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -28,6 +29,7 @@ public class Member {
     String name;
     @Embedded
     Address address;
+    @JsonIgnore
     @OneToMany(mappedBy = MEMBER)
     List<Order> orders = new ArrayList<>();
 }
