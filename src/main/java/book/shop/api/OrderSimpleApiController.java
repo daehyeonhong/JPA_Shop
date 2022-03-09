@@ -1,17 +1,13 @@
 package book.shop.api;
 
-import book.shop.domain.Address;
 import book.shop.domain.Order;
-import book.shop.enumerate.OrderStatus;
 import book.shop.repository.OrderRepository;
-import lombok.AccessLevel;
-import lombok.Data;
+import book.shop.repository.order.simplequery.OrderSimpleQueryDto;
+import book.shop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.time.LocalDateTime;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
@@ -26,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
     private final OrderRepository orderRepository;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     @GetMapping(value = "/api/v1/simple-orders")
     public List<Order> ordersV1() {
@@ -36,36 +33,32 @@ public class OrderSimpleApiController {
     }
 
     @GetMapping(value = "/api/v2/simple-orders")
-    public List<SimpleOrderDto> orderV2() {
+    public List<OrderSimpleQueryDto> orderV2() {
         final List<Order> orders = this.orderRepository.findAll();
         return orders.stream()
-                .map(SimpleOrderDto::new)
+                .map(order -> new OrderSimpleQueryDto(order.getId(),
+                        order.getMember().getName(),
+                        order.getOrderDate(),
+                        order.getStatus(),
+                        order.getDelivery().getAddress()))
                 .collect(toList());
     }
 
     @GetMapping(value = "/api/v3/simple-orders")
-    public List<SimpleOrderDto> orderV3() {
+    public List<OrderSimpleQueryDto> orderV3() {
         final List<Order> orders = this.orderRepository.findWithMemberDelivery();
         return orders.stream()
-                .map(SimpleOrderDto::new)
+                .map(order -> new OrderSimpleQueryDto(order.getId(),
+                        order.getMember().getName(),
+                        order.getOrderDate(),
+                        order.getStatus(),
+                        order.getDelivery().getAddress()))
                 .collect(toList());
     }
 
-    @Data
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    static class SimpleOrderDto {
-        Long orderId;
-        String name;
-        LocalDateTime orderDate;
-        OrderStatus orderStatus;
-        Address address;
-
-        public SimpleOrderDto(final Order order) {
-            this.orderId = order.getId();
-            this.name = order.getMember().getName();
-            this.orderDate = order.getOrderDate();
-            this.orderStatus = order.getStatus();
-            this.address = order.getDelivery().getAddress();
-        }
+    @GetMapping(value = "/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> orderV4() {
+        return this.orderSimpleQueryRepository.findOrderDto();
     }
+
 }
