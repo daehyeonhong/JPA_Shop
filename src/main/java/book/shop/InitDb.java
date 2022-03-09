@@ -40,55 +40,55 @@ public class InitDb {
         private final EntityManager entityManager;
 
         public void firstDbInit() {
-            final Member member = getMember("userA", "Seoul", "13", "91011");
+            Member member = createMember("userA", "Seoul", "13", "91011");
             this.entityManager.persist(member);
 
-            final Book book1 = createBook("JPA1 BOOK", 10000, 100);
+            Book book1 = createBook("JPA1 BOOK", 10000, 100);
             this.entityManager.persist(book1);
-            final Book book2 = createBook("JPA2 BOOK", 20000, 100);
+            Book book2 = createBook("JPA2 BOOK", 20000, 100);
             this.entityManager.persist(book2);
 
-            final OrderItem orderItem1 = OrderItem.createOrderItem(book1, 10000, 1);
-            final OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 2);
+            OrderItem orderItem1 = OrderItem.createOrderItem(book1, 10000, 1);
+            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 2);
 
-            final Delivery delivery = createDelivery(member);
-            final Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+            Delivery delivery = createDelivery(member);
+            Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             this.entityManager.persist(order);
         }
 
         public void secondDbInit() {
-            final Member member = getMember("userB", "Tokyo", "1", "12421");
+            Member member = createMember("userB", "Tokyo", "1", "12421");
             this.entityManager.persist(member);
 
-            final Book book1 = createBook("SPRING1 BOOK", 20000, 300);
+            Book book1 = createBook("SPRING1 BOOK", 20000, 300);
             this.entityManager.persist(book1);
-            final Book book2 = createBook("SPRING2 BOOK", 40000, 200);
+            Book book2 = createBook("SPRING2 BOOK", 40000, 200);
             this.entityManager.persist(book2);
 
-            final OrderItem orderItem1 = OrderItem.createOrderItem(book1, 20000, 4);
-            final OrderItem orderItem2 = OrderItem.createOrderItem(book2, 40000, 3);
+            OrderItem orderItem1 = OrderItem.createOrderItem(book1, 20000, 4);
+            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 40000, 3);
 
-            final Delivery delivery = createDelivery(member);
-            final Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+            Delivery delivery = createDelivery(member);
+            Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             this.entityManager.persist(order);
         }
 
-        private Delivery createDelivery(final Member member) {
-            final Delivery delivery = new Delivery();
+        private Delivery createDelivery(Member member) {
+            Delivery delivery = new Delivery();
             delivery.setAddress(member.getAddress());
             return delivery;
         }
 
         private Book createBook(final String name, final int price, final int stockQuantity) {
-            final Book book1 = new Book();
-            book1.setName(name);
-            book1.setPrice(price);
-            book1.setStockQuantity(stockQuantity);
-            return book1;
+            Book book = new Book();
+            book.setName(name);
+            book.setPrice(price);
+            book.setStockQuantity(stockQuantity);
+            return book;
         }
 
-        private Member getMember(final String name, final String city, final String street, final String zipcode) {
-            final Member member = new Member();
+        private Member createMember(final String name, final String city, final String street, final String zipcode) {
+            Member member = new Member();
             member.setName(name);
             member.setAddress(new Address(city, street, zipcode));
             return member;

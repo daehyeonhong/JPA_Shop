@@ -16,7 +16,7 @@ public class ItemUpdateTests {
     @DisplayName(value = "영속성 업데이트 테스트")
     public void updateTest() throws Exception {
         //given
-        final Book book = entityManager.find(Book.class, 1L);
+        Book book = entityManager.find(Book.class, 1L);
         //TX
         book.setName("asdasd");
         //변경 감지 == Dirty Checking

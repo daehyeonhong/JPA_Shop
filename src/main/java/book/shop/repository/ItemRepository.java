@@ -11,7 +11,7 @@ import java.util.List;
 public class ItemRepository {
     private final EntityManager entityManager;
 
-    public void save(final Item item) {
+    public void save(Item item) {
         if (item.getId() == null) this.entityManager.persist(item);
         else this.entityManager.merge(item);
     }

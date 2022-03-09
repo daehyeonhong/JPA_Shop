@@ -11,7 +11,7 @@ import java.util.List;
 public class MemberRepository {
     private final EntityManager entityManager;
 
-    public void save(final Member member) {
+    public void save(Member member) {
         this.entityManager
                 .persist(member);
     }

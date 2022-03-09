@@ -29,19 +29,19 @@ public class MemberApiController {
 
     @GetMapping(value = "/api/v2/members")
     public Result<List<MemberDto>> membersV2() {
-        final List<MemberDto> memberDtos = this.memberService.findMembers().stream().map(member -> new MemberDto(member.getName())).collect(Collectors.toList());
+        List<MemberDto> memberDtos = this.memberService.findMembers().stream().map(member -> new MemberDto(member.getName())).collect(Collectors.toList());
         return new Result<>(memberDtos.size(), memberDtos);
     }
 
     @PostMapping(value = "/api/v1/members")
-    public CreateMemberResponse saveMemberV1(@RequestBody @Valid final Member member) {
+    public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member) {
         final Long id = this.memberService.join(member);
         return new CreateMemberResponse(id);
     }
 
     @PostMapping(value = "/api/v2/members")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid final CreateMemberRequest memberRequest) {
-        final Member member = new Member();
+        Member member = new Member();
         member.setAddress(memberRequest.getAddress());
         member.setName(memberRequest.getName());
         final Long id = this.memberService.join(member);
@@ -53,7 +53,7 @@ public class MemberApiController {
             @PathVariable final Long id,
             @RequestBody @Valid UpdateMemberRequest memberRequest) {
         this.memberService.update(id, memberRequest.getName(), memberRequest.getAddress());
-        final Member member = this.memberService.findOne(id);
+        Member member = this.memberService.findOne(id);
         return new UpdateMemberResponse(member.getId(), member.getName(), member.getAddress());
     }
 

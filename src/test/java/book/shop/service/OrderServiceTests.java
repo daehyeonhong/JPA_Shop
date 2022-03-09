@@ -31,9 +31,9 @@ class OrderServiceTests {
     @DisplayName(value = "상품주문")
     void order() {
         //given
-        final Member member = this.createMember();
+         Member member = this.createMember();
 
-        final Item book = this.createItem("MobyDick", 11000, 10);
+        Item book = this.createItem("MobyDick", 11000, 10);
 
         final int orderCount = 2;
 
@@ -41,7 +41,7 @@ class OrderServiceTests {
         final Long orderId = this.orderService.order(member.getId(), book.getId(), orderCount);
 
         //then
-        final Order getOrder = this.orderRepository.findOne(orderId);
+        Order getOrder = this.orderRepository.findOne(orderId);
 
         assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "상품 주문시 상태는 ORDER");
         assertEquals(1, getOrder.getOrderItems().size(), "주문한 상품 종류 수가 정확해야 한다.");
@@ -55,8 +55,8 @@ class OrderServiceTests {
     @DisplayName(value = "주문재고초과")
     void orderStockOver() {
         //given
-        final Member member = this.createMember();
-        final Item item = this.createItem("Snow County", 10000, 30);
+        Member member = this.createMember();
+        Item item = this.createItem("Snow County", 10000, 30);
         //when
         final int orderCount = 31;
         //then
@@ -67,22 +67,22 @@ class OrderServiceTests {
     @DisplayName(value = "주문취소")
     void cancel() {
         //given
-        final Member member = this.createMember();
-        final Item item = createItem("La Peste", 15000, 20);
+        Member member = this.createMember();
+        Item item = createItem("La Peste", 15000, 20);
         final int orderCount = 2;
 
         final Long orderId = this.orderService.order(member.getId(), item.getId(), orderCount);
         //when
         this.orderService.cancelOrder(orderId);
         //then
-        final Order order = this.orderRepository.findOne(orderId);
+        Order order = this.orderRepository.findOne(orderId);
 
         assertEquals(OrderStatus.CANCEL, order.getStatus(), "주문 취소시 상태는 CANCEL");
         assertEquals(20, item.getStockQuantity(), "주문이 취소된 상품은 재고가 복귀되어야 한다.");
     }
 
     private Item createItem(final String name, final int price, final int quantity) {
-        final Item book = new Book();
+        Item book = new Book();
         book.setName(name);
         book.setPrice(price);
         book.setStockQuantity(quantity);
@@ -91,7 +91,7 @@ class OrderServiceTests {
     }
 
     private Member createMember() {
-        final Member member = new Member();
+        Member member = new Member();
         member.setName("name");
         member.setAddress(new Address("Seoul", "Gangnam", "12345"));
         this.entityManager.persist(member);

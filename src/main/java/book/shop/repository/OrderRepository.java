@@ -20,7 +20,7 @@ import static javax.persistence.criteria.JoinType.INNER;
 public class OrderRepository {
     private final EntityManager entityManager;
 
-    public void save(final Order order) {
+    public void save(Order order) {
         this.entityManager.persist(order);
     }
 
@@ -30,10 +30,14 @@ public class OrderRepository {
 
     /**
      * StringBuild
-     * @param orderSearch 주문 검색 조건
      * @return 검색 리스트
      */
-    public List<Order> findAll(final OrderSearch orderSearch) {
+    public List<Order> findAll() {
+        return this.entityManager.createQuery("select o from Order o", Order.class)
+                .getResultList();
+    }
+
+    public List<Order> findAllByString(final OrderSearch orderSearch) {
         String jpql = "select o from Order o join o.member m";
         boolean isFirstCondition = true;
         if (orderSearch.getOrderStatus() != null) {
@@ -69,7 +73,7 @@ public class OrderRepository {
         final Root<Order> root = criteriaQuery.from(Order.class);
         final Join<Object, Object> member = root.join("member", INNER);
 
-        final List<Predicate> criteria = new ArrayList<>();
+        List<Predicate> criteria = new ArrayList<>();
 
         if (orderSearch.getOrderStatus() != null)
             criteria.add(criteriaBuilder.equal(root.get("status"), orderSearch.getOrderStatus()));
@@ -77,7 +81,7 @@ public class OrderRepository {
         if (StringUtils.hasText(orderSearch.getMemberName()))
             criteria.add(criteriaBuilder.like(member.get("name"), "%" + orderSearch.getMemberName() + "%"));
 
-        criteriaQuery.where(criteriaBuilder.and(criteria.toArray(new Predicate[0])));
+        criteriaQuery.where(criteriaBuilder.and(criteria.toArray(new Predicate[criteria.size()])));
         final TypedQuery<Order> query = this.entityManager.createQuery(criteriaQuery).setMaxResults(1000);
         return query.getResultList();
     }

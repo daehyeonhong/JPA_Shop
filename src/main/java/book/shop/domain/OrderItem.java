@@ -40,8 +40,8 @@ public class OrderItem {
     int count; // 주문 수량
 
     //==Construct Method==//
-    public static OrderItem createOrderItem(final Item item, int orderPrice, int count) {
-        final OrderItem orderItem = new OrderItem();
+    public static OrderItem createOrderItem(Item item, final int orderPrice, final int count) {
+        OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);

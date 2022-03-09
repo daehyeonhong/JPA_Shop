@@ -27,8 +27,8 @@ public class Delivery {
     @GeneratedValue
     @Column(name = DELIVERY_ID)
     Long id;
-    @OneToOne(fetch = LAZY, mappedBy = DELIVERY)
     @JsonIgnore
+    @OneToOne(fetch = LAZY, mappedBy = DELIVERY)
     Order order;
     @Embedded
     Address address;

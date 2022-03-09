@@ -30,8 +30,8 @@ public class MemberService {
      * 중복 회원 검증
      * @param member 조회 회원 정보
      */
-    private void validateDuplicateMember(final Member member) {
-        final List<Member> memberList = memberRepository.findByName(member.getName());
+    private void validateDuplicateMember(Member member) {
+        List<Member> memberList = memberRepository.findByName(member.getName());
         if (!memberList.isEmpty()) throw new IllegalStateException("이미 존재하는 회원입니다.");
     }
 
@@ -48,8 +48,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(final Long id, final String name, final Address address) {
-        final Member member = this.memberRepository.fineOne(id);
+    public void update(final Long id, final String name, Address address) {
+        Member member = this.memberRepository.fineOne(id);
         member.setName(name);
         if (address != null) member.setAddress(address);
     }
