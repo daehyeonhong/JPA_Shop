@@ -5,14 +5,13 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import static book.shop.enumerate.Ids.BOOK;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Getter
 @Setter
 @FieldDefaults(level = PRIVATE)
-@DiscriminatorValue(value = BOOK)
+@DiscriminatorValue(value = "b")
 public class Book extends Item {
     String author;
     String isbn;

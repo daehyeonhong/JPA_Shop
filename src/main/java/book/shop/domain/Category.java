@@ -15,11 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import static book.shop.enumerate.Ids.CATEGORY_ID;
-import static book.shop.enumerate.Ids.CATEGORY_ITEM;
-import static book.shop.enumerate.Ids.ITEM_ID;
-import static book.shop.enumerate.Ids.PARENT;
-import static book.shop.enumerate.Ids.PARENT_ID;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -30,16 +25,16 @@ import static lombok.AccessLevel.PRIVATE;
 public class Category {
     @Id
     @GeneratedValue
-    @Column(name = CATEGORY_ID)
+    @Column(name = "category_id")
     Long id;
     String name;
     @ManyToMany
-    @JoinTable(name = CATEGORY_ITEM, joinColumns = @JoinColumn(name = CATEGORY_ID), inverseJoinColumns = @JoinColumn(name = ITEM_ID))
+    @JoinTable(name = "category_item", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     List<Item> items = new ArrayList<>();
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = PARENT_ID)
+    @JoinColumn(name = "parent_id")
     Category parent;
-    @OneToMany(mappedBy = PARENT)
+    @OneToMany(mappedBy = "parent")
     List<Category> child = new ArrayList<>();
 
     public void addChildCategory(Category child) {

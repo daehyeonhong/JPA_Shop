@@ -20,11 +20,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import static book.shop.enumerate.Ids.DELIVERY_ID;
-import static book.shop.enumerate.Ids.MEMBER_ID;
-import static book.shop.enumerate.Ids.ORDER;
-import static book.shop.enumerate.Ids.ORDERS;
-import static book.shop.enumerate.Ids.ORDER_ID;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -34,29 +29,29 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @Setter
-@Table(name = ORDERS)
+@Table(name = "orders")
 @FieldDefaults(level = PRIVATE)
 @NoArgsConstructor(access = PROTECTED)
 public class Order {
     @Id
     @GeneratedValue
-    @Column(name = ORDER_ID)
+    @Column(name = "order_id")
     Long id;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = MEMBER_ID)
+    @JoinColumn(name = "member_id")
     Member member;
-    @OneToMany(mappedBy = ORDER, cascade = ALL)
+    @OneToMany(mappedBy = "order", cascade = ALL)
     List<OrderItem> orderItems = new ArrayList<>();
     @OneToOne(fetch = LAZY, cascade = ALL)
-    @JoinColumn(name = DELIVERY_ID)
+    @JoinColumn(name = "delivery_id")
     Delivery delivery;
     LocalDateTime orderDate;
     @Enumerated(value = STRING)
     OrderStatus status;
 
     //==Construct Method==//
-    public static Order createOrder(final Member member, final Delivery delivery, final OrderItem... orderItems) {
-        final Order order = new Order();
+    public static Order createOrder(Member member, final Delivery delivery, final OrderItem... orderItems) {
+        Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
         for (OrderItem orderItem : orderItems) order.addOrderItem(orderItem);
@@ -66,7 +61,7 @@ public class Order {
     }
 
     //==연관관계 메서드==//
-    public void setMember(final Member member) {
+    public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
     }
