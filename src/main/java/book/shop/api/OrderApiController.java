@@ -47,6 +47,17 @@ public class OrderApiController {
                 .collect(toList());
     }
 
+    @GetMapping(value = "/api/v3.1/orders")
+    public List<OrderDto> ordersV3_page(
+            @RequestParam(defaultValue = "0") final int offset,
+            @RequestParam(defaultValue = "100") final int limit
+    ) {
+        List<Order> orders = this.orderRepository.findAllWithMemberDelivery(offset, limit);
+        return orders.stream()
+                .map(OrderDto::new)
+                .collect(toList());
+    }
+
     @Getter
     @Setter
     static class OrderDto {
