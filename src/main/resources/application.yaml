@@ -9,9 +9,9 @@ spring:
     properties:
       hibernate:
         format_sql: TRUE
+        default_batch_fetch_size: 100
     open-in-view: false
 
 logging:
   level:
     org.hibernate.SQL: DEBUG
-    org.hibernate.type: trace
