@@ -41,7 +41,7 @@ public class InitDb {
         private final EntityManager entityManager;
 
         public void firstDbInit() {
-            final Member member = getMember("userA", "Seoul", "13", "91011");
+            Member member = getMember("userA", "Seoul", "13", "91011");
             this.entityManager.persist(member);
 
             final Book book1 = createBook("JPA1 BOOK", 10000, 100);
@@ -53,12 +53,12 @@ public class InitDb {
             final OrderItem orderItem2 = OrderItem.createOrderItem(book2, BigDecimal.valueOf(20000), 2);
 
             final Delivery delivery = createDelivery(member);
-            final Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+            Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             this.entityManager.persist(order);
         }
 
         public void secondDbInit() {
-            final Member member = getMember("userB", "Tokyo", "1", "12421");
+            Member member = getMember("userB", "Tokyo", "1", "12421");
             this.entityManager.persist(member);
 
             final Book book1 = createBook("SPRING1 BOOK", 20000, 300);
@@ -70,11 +70,11 @@ public class InitDb {
             final OrderItem orderItem2 = OrderItem.createOrderItem(book2, BigDecimal.valueOf(40000), 3);
 
             final Delivery delivery = createDelivery(member);
-            final Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+            Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             this.entityManager.persist(order);
         }
 
-        private Delivery createDelivery(final Member member) {
+        private Delivery createDelivery(Member member) {
             final Delivery delivery = new Delivery();
             delivery.setAddress(member.getAddress());
             return delivery;
@@ -89,7 +89,7 @@ public class InitDb {
         }
 
         private Member getMember(final String name, final String city, final String street, final String zipcode) {
-            final Member member = new Member();
+            Member member = new Member();
             member.setName(name);
             member.setAddress(new Address(city, street, zipcode));
             return member;
