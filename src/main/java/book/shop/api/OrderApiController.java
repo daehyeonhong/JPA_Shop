@@ -8,7 +8,9 @@ import book.shop.repository.OrderRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,6 +48,7 @@ public class OrderApiController {
                 .collect(toList());
     }
 
+    @Transactional
     @GetMapping(value = "/api/v3.1/orders")
     public List<OrderDto> ordersV3_page(
             @RequestParam(defaultValue = "0") final int offset,
