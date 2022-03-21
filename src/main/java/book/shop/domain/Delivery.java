@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import static book.shop.enumerate.Ids.DELIVERY;
+import static book.shop.enumerate.Ids.DELIVERY_ID;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
@@ -23,10 +25,10 @@ import static lombok.AccessLevel.PRIVATE;
 public class Delivery {
     @Id
     @GeneratedValue
-    @Column(name = "delivery_id")
+    @Column(name = DELIVERY_ID)
     Long id;
     @JsonIgnore
-    @OneToOne(fetch = LAZY, mappedBy = "delivery")
+    @OneToOne(fetch = LAZY, mappedBy = DELIVERY)
     Order order;
     @Embedded
     Address address;

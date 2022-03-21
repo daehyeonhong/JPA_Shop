@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import static book.shop.enumerate.Ids.MEMBER;
+import static book.shop.enumerate.Ids.MEMBER_ID;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
@@ -21,13 +23,13 @@ import static lombok.AccessLevel.PRIVATE;
 public class Member {
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
+    @Column(name = MEMBER_ID)
     Long id;
     //    @Column(unique = true)
     String name;
     @Embedded
     Address address;
     @JsonIgnore
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = MEMBER)
     List<Order> orders = new ArrayList<>();
 }

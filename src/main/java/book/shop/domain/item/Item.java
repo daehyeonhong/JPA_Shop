@@ -15,6 +15,9 @@ import javax.persistence.ManyToMany;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import static book.shop.enumerate.Ids.DTYPE;
+import static book.shop.enumerate.Ids.ITEMS;
+import static book.shop.enumerate.Ids.ITEM_ID;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -23,16 +26,16 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @Inheritance(strategy = SINGLE_TABLE)
 @FieldDefaults(level = PRIVATE)
-@DiscriminatorColumn(name = "dtype")
+@DiscriminatorColumn(name = DTYPE)
 public abstract class Item {
     @Id
     @GeneratedValue
-    @Column(name = "item_id")
+    @Column(name = ITEM_ID)
     Long id;
     String name;
     BigDecimal price;
     int stockQuantity;
-    @ManyToMany(mappedBy = "items")
+    @ManyToMany(mappedBy = ITEMS)
     List<Category> categories = new ArrayList<>();
 
     /**
