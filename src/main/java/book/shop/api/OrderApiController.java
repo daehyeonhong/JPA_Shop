@@ -5,6 +5,8 @@ import book.shop.domain.Order;
 import book.shop.domain.OrderItem;
 import book.shop.enumerate.OrderStatus;
 import book.shop.repository.OrderRepository;
+import book.shop.repository.order.query.OrderQueryDto;
+import book.shop.repository.order.query.OrderQueryRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class OrderApiController {
     private final OrderRepository orderRepository;
+    private final OrderQueryRepository orderQueryRepository;
 
     @GetMapping(value = "/api/v1/orders")
     public List<Order> ordersV1() {
@@ -58,6 +61,11 @@ public class OrderApiController {
         return orders.stream()
                 .map(OrderDto::new)
                 .collect(toList());
+    }
+
+    @GetMapping(value = "/api/v4/orders")
+    public List<OrderQueryDto> ordersV4() {
+        return this.orderQueryRepository.findOrderQueryDtos();
     }
 
     @Getter
