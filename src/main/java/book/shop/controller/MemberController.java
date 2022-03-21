@@ -29,7 +29,7 @@ public class MemberController {
     @PostMapping(value = "/new")
     public String create(@Valid final MemberForm memberForm, final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "members/createMemberForm";
-        Member member = new Member();
+        final Member member = new Member();
         member.setName(memberForm.getName());
         member.setAddress(new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode()));
 

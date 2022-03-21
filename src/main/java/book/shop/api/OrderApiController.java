@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -68,7 +67,7 @@ public class OrderApiController {
         private Address address;
         private List<OrderItemDto> orderItems;
 
-        public OrderDto(Order order) {
+        public OrderDto(final Order order) {
             this.orderId = order.getId();
             this.name = order.getMember().getName();
             this.orderDate = order.getOrderDate();
@@ -87,7 +86,7 @@ public class OrderApiController {
         private int count;
         private BigDecimal totalPrice;
 
-        public OrderItemDto(OrderItem orderItem) {
+        public OrderItemDto(final OrderItem orderItem) {
             this.itemName = orderItem.getItem().getName();
             this.orderPrice = orderItem.getOrderPrice();
             this.count = orderItem.getCount();

@@ -26,15 +26,15 @@ public class OrderSimpleApiController {
 
     @GetMapping(value = "/api/v1/simple-orders")
     public List<Order> ordersV1() {
-        List<Order> orders = this.orderRepository.findAll();
-        for (Order order : orders)
+        final List<Order> orders = this.orderRepository.findAll();
+        for (final Order order : orders)
             log.info("{}, {}", order.getMember().getName(), order.getDelivery().getStatus());
         return orders;
     }
 
     @GetMapping(value = "/api/v2/simple-orders")
     public List<OrderSimpleQueryDto> orderV2() {
-        List<Order> orders = this.orderRepository.findAll();
+        final List<Order> orders = this.orderRepository.findAll();
         return orders.stream()
                 .map(order -> new OrderSimpleQueryDto(order.getId(),
                         order.getMember().getName(),
@@ -46,7 +46,7 @@ public class OrderSimpleApiController {
 
     @GetMapping(value = "/api/v3/simple-orders")
     public List<OrderSimpleQueryDto> orderV3() {
-        List<Order> orders = this.orderRepository.findWithMemberDelivery();
+        final List<Order> orders = this.orderRepository.findWithMemberDelivery();
         return orders.stream()
                 .map(order -> new OrderSimpleQueryDto(order.getId(),
                         order.getMember().getName(),
