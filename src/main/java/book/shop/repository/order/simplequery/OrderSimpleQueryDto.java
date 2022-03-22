@@ -2,13 +2,13 @@ package book.shop.repository.order.simplequery;
 
 import book.shop.domain.Address;
 import book.shop.enumerate.OrderStatus;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
+import static lombok.AccessLevel.PRIVATE;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = PRIVATE)
 public class OrderSimpleQueryDto {
     Long orderId;
     String name;

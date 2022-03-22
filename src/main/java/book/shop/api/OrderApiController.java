@@ -39,28 +39,19 @@ public class OrderApiController {
 
     @GetMapping(value = "/api/v2/orders")
     public List<OrderDto> ordersV2() {
-        return this.orderRepository.findAll().stream()
-                .map(OrderDto::new)
-                .collect(toList());
+        return this.orderRepository.findAll().stream().map(OrderDto::new).collect(toList());
     }
 
     @GetMapping(value = "/api/v3/orders")
     public List<OrderDto> ordersV3() {
-        return this.orderRepository.findAllWithItem().stream()
-                .map(OrderDto::new)
-                .collect(toList());
+        return this.orderRepository.findAllWithItem().stream().map(OrderDto::new).collect(toList());
     }
 
     @Transactional
     @GetMapping(value = "/api/v3.1/orders")
-    public List<OrderDto> ordersV3_page(
-            @RequestParam(defaultValue = "0") final int offset,
-            @RequestParam(defaultValue = "100") final int limit
-    ) {
+    public List<OrderDto> ordersV3_page(@RequestParam(defaultValue = "0") final int offset, @RequestParam(defaultValue = "100") final int limit) {
         List<Order> orders = this.orderRepository.findAllWithMemberDelivery(offset, limit);
-        return orders.stream()
-                .map(OrderDto::new)
-                .collect(toList());
+        return orders.stream().map(OrderDto::new).collect(toList());
     }
 
     @GetMapping(value = "/api/v4/orders")
@@ -71,6 +62,11 @@ public class OrderApiController {
     @GetMapping(value = "/api/v5/orders")
     public List<OrderQueryDto> ordersV5() {
         return this.orderQueryRepository.findAllByDtoOptimization();
+    }
+
+    @GetMapping(value = "/api/v6/orders")
+    public List<OrderQueryDto> ordersV6() {
+        return this.orderQueryRepository.findAllByDtoFlat();
     }
 
     @Getter
@@ -89,8 +85,7 @@ public class OrderApiController {
             this.orderDate = order.getOrderDate();
             this.orderStatus = order.getStatus();
             this.address = order.getDelivery().getAddress();
-            this.orderItems = order.getOrderItems().stream()
-                    .map(OrderItemDto::new).collect(toList());
+            this.orderItems = order.getOrderItems().stream().map(OrderItemDto::new).collect(toList());
         }
     }
 

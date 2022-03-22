@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
 
 @Repository
@@ -27,6 +29,24 @@ public class OrderQueryRepository {
         final Map<Long, List<OrderItemQueryDto>> orderItemMap = this.findOrderItemMap(this.toOrderIds(orders));
         orders.forEach(orderQueryDto -> orderQueryDto.setOrderItems(orderItemMap.get(orderQueryDto.getOrderId())));
         return orders;
+    }
+
+    public List<OrderQueryDto> findAllByDtoFlat() {
+        return this.findOrderItemFlat().stream()
+                .collect(groupingBy(OrderQueryDto::new, mapping(OrderItemQueryDto::new, toList())))
+                .entrySet().stream().map(OrderQueryDto::new)
+                .collect(toList());
+    }
+
+    private List<OrderFlatDto> findOrderItemFlat() {
+        return this.entityManager.createQuery(
+                "select new book.shop.repository.order.query.OrderFlatDto(o.id,m.name,o.orderDate,o.status,d.address,i.name,oi.orderPrice,oi.count)" +
+                        " from Order o" +
+                        " join o.member m" +
+                        " join o.delivery d" +
+                        " join o.orderItems oi" +
+                        " join oi.item i", OrderFlatDto.class
+        ).getResultList();
     }
 
     private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(final List<Long> orderIds) {
