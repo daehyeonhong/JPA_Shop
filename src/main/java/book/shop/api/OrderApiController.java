@@ -32,7 +32,7 @@ public class OrderApiController {
             order.getMember().getName();
             order.getDelivery().getAddress();
             List<OrderItem> orderItems = order.getOrderItems();
-            orderItems.stream().forEach(orderItem -> orderItem.getItem().getName());
+            orderItems.forEach(orderItem -> orderItem.getItem().getName());
         }
         return orders;
     }
@@ -66,6 +66,11 @@ public class OrderApiController {
     @GetMapping(value = "/api/v4/orders")
     public List<OrderQueryDto> ordersV4() {
         return this.orderQueryRepository.findOrderQueryDtos();
+    }
+
+    @GetMapping(value = "/api/v5/orders")
+    public List<OrderQueryDto> ordersV5() {
+        return this.orderQueryRepository.findAllByDtoOptimization();
     }
 
     @Getter

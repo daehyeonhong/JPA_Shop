@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,6 +20,32 @@ public class OrderQueryRepository {
             orderQueryDto.setOrderItems(orderItems);
         });
         return orders;
+    }
+
+    public List<OrderQueryDto> findAllByDtoOptimization() {
+        final List<OrderQueryDto> orders = this.findOrders();
+        final Map<Long, List<OrderItemQueryDto>> orderItemMap = this.findOrderItemMap(this.toOrderIds(orders));
+        orders.forEach(orderQueryDto -> orderQueryDto.setOrderItems(orderItemMap.get(orderQueryDto.getOrderId())));
+        return orders;
+    }
+
+    private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(final List<Long> orderIds) {
+        final List<OrderItemQueryDto> orderItems = this.entityManager.createQuery(
+                        "select new book.shop.repository.order.query.OrderItemQueryDto(oi.order.id,oi.item.name,oi.orderPrice,oi.count)" +
+                                " from OrderItem oi" +
+                                " join oi.item i" +
+                                " where oi.order.id in :orderIds"
+                        , OrderItemQueryDto.class
+                ).setParameter("orderIds", orderIds)
+                .getResultList();
+        return orderItems.stream()
+                .collect(Collectors.groupingBy(OrderItemQueryDto::getOrderId));
+    }
+
+    private List<Long> toOrderIds(final List<OrderQueryDto> orders) {
+        return orders.stream()
+                .map(OrderQueryDto::getOrderId)
+                .collect(toList());
     }
 
     private List<OrderItemQueryDto> findOrderItems(final Long orderId) {
