@@ -31,15 +31,6 @@ public class OrderQueryDto {
         this.address = address;
     }
 
-    public OrderQueryDto(final Long orderId, final String name, final LocalDateTime orderDate, final OrderStatus orderStatus, final Address address, final List<OrderItemQueryDto> orderItems) {
-        this.orderId = orderId;
-        this.name = name;
-        this.orderDate = orderDate;
-        this.orderStatus = orderStatus;
-        this.address = address;
-        this.orderItems = orderItems;
-    }
-
     public OrderQueryDto(final OrderFlatDto orderFlatDto) {
         this.orderId = orderFlatDto.getOrderId();
         this.name = orderFlatDto.getName();
