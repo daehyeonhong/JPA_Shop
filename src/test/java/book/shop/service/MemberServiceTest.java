@@ -1,7 +1,6 @@
 package book.shop.service;
 
 import book.shop.domain.Member;
-import book.shop.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MemberServiceTest {
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private MemberRepository memberRepository;
     @Autowired
     private EntityManager entityManager;
 

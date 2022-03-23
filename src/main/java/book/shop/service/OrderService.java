@@ -32,18 +32,18 @@ public class OrderService {
     @Transactional
     public Long order(final Long memberId, final Long itemId, final int count) {
         //Entity 조회
-        Member member = this.memberRepository.fineOne(memberId);
-        Item item = this.itemRepository.findOne(itemId);
+        final Member member = this.memberRepository.findById(memberId).orElseThrow();
+        final Item item = this.itemRepository.findOne(itemId);
 
         //배송정보 생성
-        Delivery delivery = new Delivery();
+        final Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
 
         //주문상품 생성
-        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+        final OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
         //주문 생성
-        Order order = Order.createOrder(member, delivery, orderItem);
+        final Order order = Order.createOrder(member, delivery, orderItem);
 
         this.orderRepository.save(order);
         return order.getId();
@@ -55,7 +55,7 @@ public class OrderService {
      */
     @Transactional
     public void cancelOrder(final Long orderId) {
-        Order order = this.orderRepository.findOne(orderId);
+        final Order order = this.orderRepository.findOne(orderId);
         order.cancel();
     }
 
