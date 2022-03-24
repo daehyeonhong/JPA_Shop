@@ -1,7 +1,6 @@
 package book.shop.controller;
 
 import book.shop.domain.Member;
-import book.shop.domain.Order;
 import book.shop.domain.item.Item;
 import book.shop.repository.OrderSearch;
 import book.shop.service.ItemService;
@@ -14,19 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/order")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final ItemService itemService;
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/order")
     public String createForm(final Model model) {
         final List<Member> members = this.memberService.findMembers();
         final List<Item> items = this.itemService.findItems();
@@ -36,7 +33,7 @@ public class OrderController {
         return "order/orderForm";
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/order")
     public String order(@RequestParam final Long memberId,
                         @RequestParam final Long itemId,
                         @RequestParam final int count) {
@@ -44,14 +41,13 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    @GetMapping(value = "s")
+    @GetMapping(value = "/orders")
     public String orderList(@ModelAttribute final OrderSearch orderSearch, final Model model) {
-        final List<Order> order = this.orderService.findOrder(orderSearch);
-        model.addAttribute("orders", order);
+        model.addAttribute("orders", this.orderService.findOrder(orderSearch));
         return "order/orderList";
     }
 
-    @PostMapping(value = "s/{orderId}/cancel")
+    @PostMapping(value = "/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable final Long orderId) {
         this.orderService.cancelOrder(orderId);
         return "redirect:/orders";

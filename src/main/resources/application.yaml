@@ -10,7 +10,7 @@ spring:
       hibernate:
         format_sql: TRUE
         default_batch_fetch_size: 100
-    open-in-view: false
+#    open-in-view: false
 
 logging:
   level:
